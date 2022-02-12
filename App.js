@@ -1,20 +1,35 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
+import {
+  useFonts,
+  OpenSans_700Bold,
+  OpenSans_400Regular,
+} from '@expo-google-fonts/open-sans';
 
-export default function App() {
+import { LocationProvider } from './src/context/LocationContext';
+import { RestaurantProvider } from './src/context/RestaurantContext';
+import { FavouritesProvider } from './src/context/FavouritesContext';
+
+import Navigation from './src/components/Navigation';
+
+export default App = () => {
+  const [fontsLoading] = useFonts({ OpenSans_700Bold, OpenSans_400Regular });
+
+  if (!fontsLoading) {
+    return <View></View>;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <LocationProvider>
+      <RestaurantProvider>
+        <FavouritesProvider>
+          <PaperProvider>
+            <StatusBar />
+            <Navigation />
+          </PaperProvider>
+        </FavouritesProvider>
+      </RestaurantProvider>
+    </LocationProvider>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+};
