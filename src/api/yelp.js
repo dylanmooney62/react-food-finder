@@ -1,8 +1,8 @@
-import { YELP_AUTH_TOKEN } from '@env';
+import Constants from 'expo-constants';
 
 const url = 'https://api.yelp.com/v3/businesses';
 const headers = {
-  Authorization: `Bearer ${YELP_AUTH_TOKEN}`,
+  Authorization: `Bearer ${Constants.manifest.extra.YELP_AUTH_TOKEN}`,
 };
 
 export const getRestaurants = async ({ lat, lng }) => {

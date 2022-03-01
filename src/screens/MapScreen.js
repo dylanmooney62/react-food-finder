@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import { View } from 'react-native';
+import Constants from 'expo-constants';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import MapboxGL from '@react-native-mapbox-gl/maps';
-import { MAPBOX_ACCESS_TOKEN } from '@env';
 import '../utils/mapbox-logger';
 
 import { LocationContext } from '../context/LocationContext';
 import { RestaurantContext } from '../context/RestaurantContext';
 
-MapboxGL.setAccessToken(MAPBOX_ACCESS_TOKEN);
+MapboxGL.setAccessToken(Constants.manifest.extra.MAPBOX_ACCESS_TOKEN);
 
 const MapScreen = () => {
   const { location } = useContext(LocationContext);
