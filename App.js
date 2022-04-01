@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { View } from 'react-native';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import Toast from 'react-native-toast-message';
 import {
   useFonts,
   OpenSans_700Bold,
@@ -24,9 +25,10 @@ export default App = () => {
     <LocationProvider>
       <RestaurantProvider>
         <FavouritesProvider>
-          <PaperProvider>
+          <PaperProvider theme={DefaultTheme}>
             <StatusBar />
             <Navigation />
+            <Toast />
           </PaperProvider>
         </FavouritesProvider>
       </RestaurantProvider>

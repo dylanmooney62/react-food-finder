@@ -23,6 +23,7 @@ import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.modules.network.NetworkingModule;
 import okhttp3.OkHttpClient;
+import tech.bam.rnperformance.flipper.RNPerfMonitorPlugin;
 
 public class ReactNativeFlipper {
   public static void initializeFlipper(Context context, ReactInstanceManager reactInstanceManager) {
@@ -41,6 +42,7 @@ public class ReactNativeFlipper {
               builder.addNetworkInterceptor(new FlipperOkhttpInterceptor(networkFlipperPlugin));
             }
           });
+      client.addPlugin(new RNPerfMonitorPlugin(reactInstanceManager));
       client.addPlugin(networkFlipperPlugin);
       client.start();
       // Fresco Plugin needs to ensure that ImagePipelineFactory is initialized

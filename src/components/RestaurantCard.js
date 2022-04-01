@@ -40,7 +40,7 @@ const RestaurantCard = ({ restaurant, distance }) => {
         <ImageGradient src={image_url ? image_url : placeholderImg} />
       </View>
       <View style={styles.body}>
-        <View>
+        <View style={{ flex: 1 }}>
           <Text style={styles.title}>{name}</Text>
           <Text style={styles.address}>{location.address1}</Text>
         </View>
@@ -94,7 +94,6 @@ const styles = StyleSheet.create({
   },
   address: {
     fontFamily: 'OpenSans_400Regular',
-    flexWrap: 'wrap',
     flex: 1,
   },
   title: {

@@ -6,26 +6,26 @@ const headers = {
 };
 
 export const getRestaurants = async ({ lat, lng }) => {
-  try {
-    const data = await fetch(
-      `${url}/search?term=food&latitude=${lat}&longitude=${lng}&limit=5`,
-      { headers }
-    ).then((res) => res.json());
+  const response = await fetch(
+    `${url}/search?term=food&latitude=${lat}&longitude=${lng}&limit=15`,
+    { headers }
+  );
 
-    return data?.businesses || [];
-  } catch (error) {
-    console.error(error);
+  if (response.status !== 200) {
+    throw new Error('Could not retrieve restaurant data. Please try again');
   }
+
+  const data = await response.json();
+
+  return data?.businesses || [];
 };
 
 export const getRestaurantById = async (id) => {
-  try {
-    const restaurant = await fetch(`${url}/${id}`, { headers }).then((res) =>
-      res.json()
-    );
+  const response = await fetch(`${url}/${id}`, { headers });
 
-    return restaurant;
-  } catch (error) {
-    console.error(error);
+  if (response.status !== 200) {
+    return null;
   }
+
+  return await response.json();
 };

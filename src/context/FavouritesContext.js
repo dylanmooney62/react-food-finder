@@ -15,19 +15,19 @@ export const FavouritesProvider = ({ children }) => {
     // Favourites are stored as id's to retrieve update to data restaurant data from API
     const ids = JSON.parse(await getItem());
 
+    if (!ids || ids.length === 0) return;
+
     // Make a request for each id in the array
     const restaurants = await Promise.all(
       ids.map((id) => getRestaurantById(id))
     );
 
-    setFavourites(restaurants);
+    setFavourites(restaurants.filter((r) => r !== null));
   }, []);
 
   // Runs every time user adds or removes favourite
   useAsyncEffect(async () => {
-    // Extract id's from favourites array
     const ids = favourites.map(({ id }) => id);
-
     // Store updated id's in key storage
     await setItem(JSON.stringify(ids));
   }, [favourites]);

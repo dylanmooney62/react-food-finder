@@ -1,11 +1,11 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react';
 import * as Location from 'expo-location';
+import Toast from 'react-native-toast-message';
 
 export const LocationContext = createContext();
 
 export const LocationProvider = ({ children }) => {
   const [location, setLocation] = useState(null);
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Use GPS location when app loads
@@ -19,35 +19,49 @@ export const LocationProvider = ({ children }) => {
     const { status } = await Location.requestForegroundPermissionsAsync();
 
     if (status !== 'granted') {
-      return setError('Background permissions denied');
+      return handleError('Location permissions are denied');
     }
 
-    const { coords } = await Location.getCurrentPositionAsync({});
+    try {
+      const { coords } = await Location.getCurrentPositionAsync({});
 
-    const { latitude, longitude } = coords;
+      const { latitude, longitude } = coords;
 
-    setLocation({ latitude, longitude });
-    setLoading(false);
+      setLocation({ latitude, longitude });
+      setLoading(false);
+    } catch (error) {
+      handleError(error.message);
+    }
   }, []);
 
-  const setLocationGeocode = async (address) => {
+  const setLocationAddress = async (address) => {
     setLoading(true);
 
-    const locations = await Location.geocodeAsync(address);
+    try {
+      const locations = await Location.geocodeAsync(address);
 
-    if (locations.length === 0) {
-      return setError('Could not retrieve coordinates from address');
+      const { latitude, longitude } = locations[0];
+
+      if (locations.length === 0) {
+        return handleError('Could not retrieve location from address');
+      }
+
+      setLocation({ latitude, longitude });
+      setLoading(false);
+    } catch (error) {
+      return handleError(error.message);
     }
+  };
 
-    const { latitude, longitude } = locations[0];
-
-    setLocation({ latitude, longitude });
+  const handleError = (message) => {
+    Toast.show({ type: 'error', text1: message });
+    setLocation({ latitude: 51.509865, longitude: -0.118092 });
     setLoading(false);
   };
 
   return (
     <LocationContext.Provider
-      value={{ location, loading, error, setLocationGeocode, setLocationGPS }}
+      value={{ location, loading, setLocationAddress, setLocationGPS }}
     >
       {children}
     </LocationContext.Provider>

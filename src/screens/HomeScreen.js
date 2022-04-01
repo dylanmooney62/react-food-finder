@@ -8,14 +8,14 @@ import RestaurantList from '../components/RestaurantList';
 import Container from '../components/Container';
 
 const Home = () => {
-  const { setLocationGPS, setLocationGeocode } = useContext(LocationContext);
+  const { setLocationGPS, setLocationAddress } = useContext(LocationContext);
   const { restaurants, loading } = useContext(RestaurantContext);
 
   const [address, setAddress] = useState('');
 
   const handleSubmit = () => {
     // If search is empty set location to GPS as default
-    address ? setLocationGeocode(address) : setLocationGPS();
+    address ? setLocationAddress(address) : setLocationGPS();
   };
 
   return (
@@ -27,12 +27,7 @@ const Home = () => {
         onSubmitEditing={handleSubmit}
         style={{ marginBottom: 12 }}
       />
-      {!loading && (
-        <RestaurantList
-          restaurants={restaurants}
-          style={{ marginBottom: 78 }}
-        />
-      )}
+      {!loading && <RestaurantList restaurants={restaurants} />}
     </Container>
   );
 };
