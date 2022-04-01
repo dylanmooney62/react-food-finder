@@ -22,16 +22,18 @@ export default App = () => {
   }
 
   return (
-    <LocationProvider>
-      <RestaurantProvider>
-        <FavouritesProvider>
-          <PaperProvider theme={DefaultTheme}>
-            <StatusBar />
-            <Navigation />
-            <Toast />
-          </PaperProvider>
-        </FavouritesProvider>
-      </RestaurantProvider>
-    </LocationProvider>
+    <>
+      <LocationProvider>
+        <RestaurantProvider>
+          <FavouritesProvider>
+            <PaperProvider theme={DefaultTheme}>
+              <StatusBar />
+              <Navigation />
+            </PaperProvider>
+          </FavouritesProvider>
+        </RestaurantProvider>
+      </LocationProvider>
+      <Toast />
+    </>
   );
 };

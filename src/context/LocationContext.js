@@ -49,7 +49,7 @@ export const LocationProvider = ({ children }) => {
       setLocation({ latitude, longitude });
       setLoading(false);
     } catch (error) {
-      return handleError(error.message);
+      return handleError('Could not retrieve location from address');
     }
   };
 
